@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -xe
+
+echo "you have to have rustc and cargo installed"
+
+rustc -V
+
+cargo -V
+
+cargo install path . 

@@ -1,0 +1,12 @@
+[package]
+name = "zkp-slingshot-example"
+version = "0.1.0"
+authors = ["makevoid <makevoid@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+curve25519-dalek = { version = "1.0.1", features = ["serde"] }
+bulletproofs = "1.0.2"
+token = { path = "vendor/slingshot/token" }
+zkvm  = { path = "vendor/slingshot/zkvm" }
+musig = { path = "vendor/slingshot/musig" }
