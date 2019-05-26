@@ -92,24 +92,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "bulletproofs"
-version = "1.0.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-dependencies = [
- "byteorder 1.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "clear_on_drop 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "curve25519-dalek 1.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
- "digest 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "failure 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "merlin 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "rand 0.6.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde 1.0.91 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde_derive 1.0.91 (registry+https://github.com/rust-lang/crates.io-index)",
- "sha3 0.8.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "subtle 2.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
 name = "byte-tools"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -733,9 +715,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 name = "zkp-slingshot-example"
 version = "0.1.0"
 dependencies = [
- "bulletproofs 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "bulletproofs 1.0.1 (git+https://github.com/dalek-cryptography/bulletproofs?branch=develop)",
  "curve25519-dalek 1.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "merlin 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "musig 0.1.0",
+ "rand 0.6.5 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rand_os 0.1.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "token 0.1.0",
  "zkvm 0.0.0",
 ]
@@ -767,7 +752,6 @@ dependencies = [
 "checksum block-buffer 0.7.3 (registry+https://github.com/rust-lang/crates.io-index)" = "c0940dc441f31689269e10ac70eb1002a3a1d3ad1390e030043662eb7fe4688b"
 "checksum block-padding 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)" = "6d4dc3af3ee2e12f3e5d224e5e1e3d73668abbeb69e566d361f7d5563a4fdf09"
 "checksum bulletproofs 1.0.1 (git+https://github.com/dalek-cryptography/bulletproofs?branch=develop)" = "<none>"
-"checksum bulletproofs 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)" = "3bc1edb4bc09df7d4afdcf9576bcdc70c80aeec096042bee80ea6b5d62e1621f"
 "checksum byte-tools 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "560c32574a12a89ecd91f5e742165893f86e3ab98d21f8ea548658eb9eef5f40"
 "checksum byte-tools 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)" = "e3b5ca7a04898ad4bcd41c90c5285445ff5b791899bb1b0abdd2a2aa791211d7"
 "checksum byteorder 1.3.1 (registry+https://github.com/rust-lang/crates.io-index)" = "a019b10a2a7cdeb292db131fc8113e57ea2a908f6e7894b0c3c671893b65dbeb"

@@ -1,38 +1,65 @@
-use curve25519_dalek::scalar::Scalar;
-extern crate token;
+extern crate rand_os;
 extern crate zkvm;
-use crate::token::{Token};
-use crate::zkvm::{Commitment, Contract, Data, Predicate, Program, Value, TxEntry, Anchor};
+extern crate token;
+use rand_os::OsRng;
+use curve25519_dalek::scalar::Scalar;
 use musig::VerificationKey;
 use bulletproofs::{BulletproofGens};
-
-fn add_contract(p: &mut Program, contract_sample_key: &Scalar) {
-    let contract = Contract::new(
-        Predicate::Key(VerificationKey::from_secret(contract_sample_key)),
-        vec![],
-        Anchor::from_raw_bytes([0u8; 32]),
-    );
-    p.push(contract).input().sign_tx();
-}
+use crate::zkvm::{
+  Predicate, Program, Verifier
+};
+use crate::token::{Token};
+mod utils;
+use utils::add_contract;
+use utils::build_tx;
 
 fn main() {
-    let issue_key = Scalar::from(1u64);
-    let dest_key = Scalar::from(2u64);
-    let contract_sample_key = Scalar::from(3u64);
-    let usd = Token::new(
-        Predicate::Key(VerificationKey::from_secret(&issue_key)),
-        b"USD".to_vec(),
-    );
-    let dest = Predicate::Key(VerificationKey::from_secret(&dest_key));
+  let mut issue_rand: OsRng = OsRng::new().unwrap();
+  let issue_key = Scalar::random(&mut issue_rand);
+  let mut dest_rand: OsRng = OsRng::new().unwrap();
+  let dest_key = Scalar::random(&mut dest_rand);
+  let mut contract_rand: OsRng = OsRng::new().unwrap();
+  let contract_key = Scalar::random(&mut contract_rand);
 
-    let program = Program::build(|p| {
-        add_contract(p, &contract_sample_key);
-        usd.issue_to(p, 10u64, dest.clone())
-    });
-    // build(program, vec![issue_key, contract_sample_key]).unwrap()
+  println!("Create keys:\n");
+  println!("  issue_key:    {:?}", issue_key);
+  println!("  dest_key:     {:?}", dest_key);
+  println!("  contract_key: {:?}", contract_key);
+  println!("\n");
 
-    // Verify tx
-    let bp_gens = BulletproofGens::new(256, 1);
-    // assert!(Verifier::verify_tx(&tx, &bp_gens).is_ok());
-    Verifier::verify_tx(&tx, &bp_gens).is_ok()
+  let token = Token::new(
+    Predicate::Key(
+      VerificationKey::from_secret(&issue_key)
+    ),
+    b"ABcoins".to_vec(),
+  );
+  // println!("Token: {:#?}", token);
+
+  let dest = Predicate::Key(VerificationKey::from_secret(&dest_key));
+  // println!("dest predicate: {:#?}", dest);
+
+  let program = Program::build(|p| {
+    add_contract(p, &contract_key);
+    token.issue_to(p, 10u64, dest.clone())
+  });
+  // println!("program: {:#?}", program);
+
+  let prog = program;
+
+  // TODO, use _ ?
+  let ( tx, tx_id, _issue_txlog ) = build_tx(prog, vec![issue_key, contract_key]).unwrap();
+  println!("TX ID: {:?}", tx_id);
+
+  // Verify tx
+  let bp_gens = BulletproofGens::new(256, 1);
+  // assert!(Verifier::verify_tx(&tx, &bp_gens).is_ok());
+  let verified = Verifier::verify_tx(&tx, &bp_gens).is_ok();
+  println!("TX Verified");
+  println!("{:?}", verified);
+
+
+  // let ( tx, tx_id, _issue_txlog ) = build_tx(program1.clone(), vec![dest_key, contract_key]).unwrap();
+  // println!("TX ID: {:?}", tx_id);
+
+
 }
