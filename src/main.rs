@@ -35,7 +35,7 @@ fn main() {
   );
   // println!("Token: {:#?}", token);
 
-  let dest = Predicate::Key(VerificationKey::from_secret(&dest_key));
+  let userKey = createBlindedKey( Predicate::Key(VerificationKey::from_secret(&dest_key));
   // println!("dest predicate: {:#?}", dest);
 
   let program = Program::build(|p| {
@@ -46,20 +46,13 @@ fn main() {
 
   let prog = program;
 
-  // TODO, use _ ?
   let ( tx, tx_id, _issue_txlog ) = build_tx(prog, vec![issue_key, contract_key]).unwrap();
   println!("TX ID: {:?}", tx_id);
 
   // Verify tx
   let bp_gens = BulletproofGens::new(256, 1);
-  // assert!(Verifier::verify_tx(&tx, &bp_gens).is_ok());
   let verified = Verifier::verify_tx(&tx, &bp_gens).is_ok();
   println!("TX Verified");
   println!("{:?}", verified);
-
-
-  // let ( tx, tx_id, _issue_txlog ) = build_tx(program1.clone(), vec![dest_key, contract_key]).unwrap();
-  // println!("TX ID: {:?}", tx_id);
-
 
 }
