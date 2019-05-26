@@ -2,8 +2,8 @@ Try ZKP Tokens via Slingshot
 
 ### Install
 
-./setup
+    ./setup
 
 ### Run
 
-./run
+    ./run
