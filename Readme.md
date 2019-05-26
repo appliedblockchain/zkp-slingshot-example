@@ -7,3 +7,7 @@ Try ZKP Tokens via Slingshot
 ### Run
 
     ./run
+
+### Pros
+
+Seems well documented, API is quite easy. The question is about how finalized is their UTXOs model.
